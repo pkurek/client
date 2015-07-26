@@ -1,4 +1,5 @@
-Link = require('react-router').Link
+React       = require 'react'
+Link        = require('react-router').Link
 highlightJS = require 'highlight.js'
 RetinaImage = require 'react-retina-image'
 

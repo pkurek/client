@@ -1,4 +1,5 @@
-Link = require('react-router').Link
+React        = require 'react'
+Link         = require('react-router').Link
 RouteHandler = require('react-router').RouteHandler
 
 # Provides global navigation for app e.g. the "Hello | Styleguide" at the top.

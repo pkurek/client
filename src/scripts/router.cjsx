@@ -4,7 +4,7 @@ require '../../public/main.css'
 
 React = require 'react'
 # Assign React to Window so the Chrome React Dev Tools will work.
-window.React = React
+# window.React = React
 
 Router = require('react-router')
 Route = Router.Route
