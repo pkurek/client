@@ -1,9 +1,16 @@
-React = require 'react'
+React = require('react')
+mui   = require('material-ui')
 
-module.exports = React.createClass
+ThemeManager = new (mui.Styles.ThemeManager)
+RaisedButton = mui.RaisedButton
+
+module.exports = React.createClass(
   displayName: 'HelloWorld'
+  childContextTypes: muiTheme: React.PropTypes.object
+
+  getChildContext: ->
+    { muiTheme: ThemeManager.getCurrentTheme() }
 
   render: ->
-    <div>
-      <h1>Hello world!</h1>
-    </div>
+    <RaisedButton label='Hello World' />
+)
