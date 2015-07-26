@@ -1,5 +1,3 @@
-# Load css first thing. It gets injected in the <head> in a <style> element by
-# the Webpack style-loader.
 require '../../public/main.css'
 
 React = require 'react'
@@ -10,15 +8,18 @@ ReactRouter = require 'react-router'
 History     = require('react-router/lib/HashHistory').default
 Route       = ReactRouter.Route
 Router      = ReactRouter.Router
+Redirect    = ReactRouter.Redirect
 
 # Require route components.
-App        = require './app'
+App          = require './app'
+NewBlueprint = require './components/blueprints/new'
+Welcome      = require './components/landing/welcome'
 
 React.render((
   <Router history={new History}>
-    <Route path="/" component={App} >
-      <Route name="hello" path="/" />
-      <Route name="styleguide" path="/styleguide" />
+    <Route component={App} >
+      <Route name="welcome" path="/" component={Welcome} />
+      <Route name="bluprintNew" path="/blueprints/new" component={NewBlueprint} />
     </Route>
   </Router>
 ), document.getElementById('app'))

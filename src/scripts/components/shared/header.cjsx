@@ -1,5 +1,6 @@
-React = require('react')
-mui   = require('material-ui')
+React      = require('react')
+mui        = require('material-ui')
+Navigation = require('react-router').Navigation
 
 ThemeManager = new (mui.Styles.ThemeManager)
 AppBar       = mui.AppBar
@@ -7,9 +8,11 @@ LeftNav      = mui.LeftNav
 
 module.exports = React.createClass
   displayName: 'AppBar'
+  mixins: [Navigation]
   childContextTypes: muiTheme: React.PropTypes.object
   menuItems: [
-    { route: '/', text: 'Models' }
+    { route: '/', text: 'Home' },
+    { route: '/blueprints/new', text: 'New Blueprint' }
   ]
 
   getChildContext: ->
@@ -20,6 +23,7 @@ module.exports = React.createClass
       <LeftNav
         menuItems={@menuItems}
         docked={false}
+        onChange={@redirect}
         ref="leftNav"/>
       <AppBar
         title="ApiDoc"
@@ -29,3 +33,6 @@ module.exports = React.createClass
 
   handleLeftIconClick: ->
     @refs.leftNav.toggle()
+
+  redirect: (event, index, element) ->
+    @transitionTo(element.route)
