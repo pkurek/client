@@ -6,20 +6,19 @@ React = require 'react'
 # Assign React to Window so the Chrome React Dev Tools will work.
 # window.React = React
 
-Router = require('react-router')
-Route = Router.Route
+ReactRouter = require 'react-router'
+History     = require('react-router/lib/HashHistory').default
+Route       = ReactRouter.Route
+Router      = ReactRouter.Router
 
 # Require route components.
-HelloWorld = require './hello_world'
-StyleGuide = require './styleguide'
-App = require './app'
+App        = require './app'
 
-routes = (
-  <Route handler={App}>
-    <Route name="hello" handler={HelloWorld} path="/" />
-    <Route name="styleguide" handler={StyleGuide} path="/styleguide" />
-  </Route>
-)
-Router.run(routes, (Handler) ->
-  React.render <Handler/>, document.getElementById 'app'
-)
+React.render((
+  <Router history={new History}>
+    <Route path="/" component={App} >
+      <Route name="hello" path="/" />
+      <Route name="styleguide" path="/styleguide" />
+    </Route>
+  </Router>
+), document.getElementById('app'))
