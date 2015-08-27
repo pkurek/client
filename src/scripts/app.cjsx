@@ -9,5 +9,7 @@ module.exports = React.createClass
   render: ->
     <div>
       <AppBar />
-      {@props.children}
+      <div id="container">
+        {@props.children}
+      </div>
     </div>

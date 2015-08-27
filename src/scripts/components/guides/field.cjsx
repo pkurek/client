@@ -12,17 +12,13 @@ module.exports = React.createClass(
     muiTheme: ThemeManager.getCurrentTheme()
 
   render: ->
-    <span>
-      <Input
-        hintText="Name of your field"
-        floatingLabelText="Name" />
-      <Input
-        hintText="Type of your field"
-        floatingLabelText="Type" />
-      <Input
-        hintText="Sample values"
-        floatingLabelText="Values" />
-    </span>
+    <div>
+      <Input hintText="Name of your field" />
+      <br />
+      <Input hintText="Type of your field" />
+      <br />
+      <Input hintText="Sample values" />
+    </div>
 
   handleSubmit: ->
     console.log "submitted"

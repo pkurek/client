@@ -11,15 +11,13 @@ Router      = ReactRouter.Router
 Redirect    = ReactRouter.Redirect
 
 # Require route components.
-App          = require './app'
-NewBlueprint = require './components/blueprints/new'
-Welcome      = require './components/landing/welcome'
+App      = require './app'
+NewGuide = require './components/guides/new'
 
 React.render((
   <Router history={new History}>
     <Route component={App} >
-      <Route name="welcome" path="/" component={Welcome} />
-      <Route name="bluprintNew" path="/blueprints/new" component={NewBlueprint} />
+      <Route name="NewGuide" path="/" component={NewGuide} />
     </Route>
   </Router>
 ), document.getElementById('app'))

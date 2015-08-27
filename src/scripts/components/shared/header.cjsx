@@ -12,7 +12,8 @@ module.exports = React.createClass
   childContextTypes: muiTheme: React.PropTypes.object
   menuItems: [
     { route: '/', text: 'Home' },
-    { route: '/blueprints/new', text: 'New Blueprint' }
+    { route: '/', text: 'Help' },
+    { route: '/', text: 'Feedback' },
   ]
 
   getChildContext: ->
@@ -26,7 +27,7 @@ module.exports = React.createClass
         onChange={@redirect}
         ref="leftNav"/>
       <AppBar
-        title="ApiDoc"
+        title="LolSumo"
         iconClassNameRight="muidocs-icon-navigation-expand-more"
         onLeftIconButtonTouchTap={@handleLeftIconClick}/>
     </div>

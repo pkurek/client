@@ -2,12 +2,12 @@ Model      = require('backbone-model').Model
 Collection = require('backbone-collection').Collection
 Dispatcher = require('../dispatcher')
 
-class Blueprint extends Model
+class Guide extends Model
   idAttribute: '_id'
 
-class BlueprintsStore extends Collection
-  model: Blueprint
-  url: '/api/blueprints'
+class GuidesStore extends Collection
+  model: Guide
+  url: '/api/guides/current'
 
   initialize: ->
     @dispatchToken = Dispatcher.register(@dispatchCallback)
@@ -18,4 +18,4 @@ class BlueprintsStore extends Collection
         @add(title: "example")
         @trigger "change"
 
-module.exports = new BlueprintsStore
+module.exports = new GuidesStore
