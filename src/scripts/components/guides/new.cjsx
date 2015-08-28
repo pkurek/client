@@ -4,58 +4,61 @@ mui   = require('material-ui')
 ThemeManager = new (mui.Styles.ThemeManager)
 Input        = mui.TextField
 Button       = mui.RaisedButton
-Field        = require './field'
+SelectField  = mui.SelectField
 
-Dispatcher      = require '../../dispatcher'
-GuidesStore = require '../../stores/guidesStore'
+CurrentGuideStore = require '../../stores/currentGuideStore'
 
 module.exports = React.createClass
-  displayName: 'GuideNew'
   childContextTypes: muiTheme: React.PropTypes.object
-
-  fields: []
-  title: ''
-
-  getInitialState: ->
-    guides: GuidesStore
+  menuItems: [
+    {text: 'Europe West', region: 'euw'}
+    {text: 'Europe North & East', region: 'eune'},
+  ]
+  region: 'euw'
 
   getChildContext: ->
     muiTheme: ThemeManager.getCurrentTheme()
 
-  componentDidMount: ->
-    @state.guides.on 'change', =>
-      @setState(guides: GuidesStore)
+  componentWillMount: ->
+    CurrentGuideStore.on('guides.find', @updateState)
+
+  updateState: ->
+    @setState(guide: CurrentGuideStore.getGuide())
 
   render: ->
-    <div>
+    <div id='newGuide'>
       <h3>Real Time Guide</h3>
-      <Input
-        hintText="Summoner name"
-        ref="name" />
-      <br />
-      <Input
-        hintText="Region"
-        ref="region" />
-      <br />
-      <Button
-        label="Add"
-        secondary={true}
-        onClick={@handleSubmit} />
-      <br />
+      <form onSubmit={@handleSubmit}>
+        <Input
+          hintText="Summoner name"
+          ref="name" />
+        <br />
+
+        <SelectField
+          onChange={@regionSelected}
+          menuItems={@menuItems}
+          ref="region" />
+        <br />
+        <Button
+          label="GIMME A GUIDE!"
+          secondary={true}
+          onClick={@handleSubmit} />
+        <br />
+      </form>
     </div>
 
-  handleSuccess: (guide) ->
-    debugger
-    console.log "success"
+  regionSelected: (region) ->
+    @region = region.target.value.region
 
-  handleError: (errors) ->
-    debugger
-    console.log "success"
+  handleSubmit: (event) ->
+    event.preventDefault()
+    if @valid()
+      CurrentGuideStore.findGuide(@refs.name.getValue(), @region)
 
-  handleSubmit: ->
-    Dispatcher.dispatch
-      command: "guide#show"
-      name: @refs.name.getValue()
-      region: @refs.region.getValue()
-      success: @handleSuccess
-      error: @handleError
+  valid: ->
+    if @refs.name.getValue()
+      @refs.name.setErrorText()
+      true
+    else
+      @refs.name.setErrorText("Summoner name plx")
+      false
