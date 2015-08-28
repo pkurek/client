@@ -1,5 +1,6 @@
-React = require('react')
-mui   = require('material-ui')
+React        = require('react')
+Translations = require('../shared/translations')
+mui          = require('material-ui')
 
 ThemeManager = new (mui.Styles.ThemeManager)
 Input        = mui.TextField
@@ -21,6 +22,7 @@ module.exports = React.createClass
 
   componentWillMount: ->
     CurrentGuideStore.on('guides.find', @updateState)
+    CurrentGuideStore.on('guides.error', @errorMsg)
 
   updateState: ->
     @setState(guide: CurrentGuideStore.getGuide())
@@ -54,6 +56,16 @@ module.exports = React.createClass
     event.preventDefault()
     if @valid()
       CurrentGuideStore.findGuide(@refs.name.getValue(), @region)
+
+  errorMsg: ->
+    errors = CurrentGuideStore.getErrors()
+    str    = ""
+    for key, messages of errors
+      for message in messages
+        str += Translations[key][message]
+
+    @refs.name.setErrorText(str)
+
 
   valid: ->
     if @refs.name.getValue()
