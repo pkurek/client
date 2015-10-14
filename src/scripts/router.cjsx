@@ -13,11 +13,13 @@ Redirect    = ReactRouter.Redirect
 # Require route components.
 App       = require './app'
 FindGuide = require './components/guides/find'
+ShowGuide = require './components/guides/show'
 
 React.render((
   <Router history={new History}>
     <Route component={App} >
       <Route name="NewGuide" path="/" component={FindGuide} />
+      <Route name="ShowGuide" path="/guides/:region/:name" component={ShowGuide} />
     </Route>
   </Router>
 ), document.getElementById('app'))

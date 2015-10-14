@@ -1,5 +1,6 @@
 React        = require('react')
 Translations = require('../shared/translations')
+Navigation   = require('react-router').Navigation
 mui          = require('material-ui')
 
 ThemeManager = new (mui.Styles.ThemeManager)
@@ -11,6 +12,7 @@ CurrentGuideStore = require '../../stores/currentGuideStore'
 
 module.exports = React.createClass
   childContextTypes: muiTheme: React.PropTypes.object
+  mixins: [Navigation]
   menuItems: [
     {text: 'Europe West', region: 'euw'}
     {text: 'Europe North & East', region: 'eune'},
@@ -21,11 +23,14 @@ module.exports = React.createClass
     muiTheme: ThemeManager.getCurrentTheme()
 
   componentWillMount: ->
-    CurrentGuideStore.on('guides.find', @updateState)
+    CurrentGuideStore.on('guides.find', @showGuide)
     CurrentGuideStore.on('guides.error', @errorMsg)
 
-  updateState: ->
-    @setState(guide: CurrentGuideStore.getGuide())
+  showGuide: ->
+    @transitionTo("/guides/#{@region}/#{@refs.name.getValue()}")
+
+  getInitialState: ->
+    loading: false
 
   render: ->
     <div id='newGuide'>
@@ -35,7 +40,6 @@ module.exports = React.createClass
           hintText="Summoner name"
           ref="name" />
         <br />
-
         <SelectField
           onChange={@regionSelected}
           menuItems={@menuItems}
@@ -65,7 +69,6 @@ module.exports = React.createClass
         str += Translations[key][message]
 
     @refs.name.setErrorText(str)
-
 
   valid: ->
     if @refs.name.getValue()
